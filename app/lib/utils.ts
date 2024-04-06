@@ -77,3 +77,8 @@ export const maskEmail = (email: string, setMaskedEmail: React.Dispatch<React.Se
         console.error('Invalid email address:', email);
     }
 };
+
+export function generateOTP() {
+    const otp = Math.floor(10000000 + Math.random() * 90000000);
+    return otp.toString();
+}
