@@ -8,14 +8,15 @@ const initalState = {
   isAuthenticated: false,
   userInfo: {},
   isSuccessAlertAlive: false,
-  isErrorAlertActive: false
+  isErrorAlertActive: false,
+  otp: "",
 };
 const DataContext = createContext<{
   store: Data;
   setData: React.Dispatch<React.SetStateAction<Data>>;
 }>({
   store: initalState,
-  setData: () => { },
+  setData: () => {},
 });
 
 export const DataProvider = ({ children }: { children: React.ReactNode }) => {
