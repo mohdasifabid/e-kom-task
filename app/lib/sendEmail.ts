@@ -1,15 +1,21 @@
 import axios from "axios";
+import { BASE_URL } from "./utils";
 
 export const sendEmail = async (email: string, verificationToken: string) => {
-    const endPoint = "/api/send-email"
+    const endPoint = `${BASE_URL}/api/send-email`;
     try {
         const response = await axios.post(endPoint, {
-            body: JSON.stringify({ email, verificationToken })
+            email,
+            verificationToken
         });
+
         if (response.status === 200) {
-            return response
+            console.log("Email sent successfully:", response.data);
+        } else {
+            throw new Error(`Failed to send email. Status: ${response.status}`);
         }
     } catch (error) {
-        console.error("Error sending email:", error);
+        console.error("Error sending email:", error.message);
+        throw error;
     }
 };
