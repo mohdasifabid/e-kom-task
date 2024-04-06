@@ -8,37 +8,42 @@ import { Input } from "./Input";
 import { Button } from "./Button";
 import {
   createAccountHandler,
+  generateOTP,
   handleNavigationToSignInPage,
   validateEmail,
   validateName,
   validatePassword,
 } from "../lib/utils";
+
 import { useData } from "../context";
 import { useAuth } from "../lib/useAuth";
+import { sendEmail } from "../lib/sendEmail";
 
 export const SignUp = (props: any) => {
   const router = useRouter();
-  const [name, setName]: [
-    string,
-    React.Dispatch<React.SetStateAction<string>>
-  ] = useState("");
-  const [email, setEmail]: [
-    string,
-    React.Dispatch<React.SetStateAction<string>>
-  ] = useState("");
-  const [password, setPassword]: [
-    string | number,
-    React.Dispatch<React.SetStateAction<any>>
-  ] = useState("");
-  const { store, setData } = useData()
-  useAuth("/create-account")
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { store, setData } = useData();
+  useAuth("/create-account");
+  const otp = generateOTP();
+
+  const handleOtpEmail = async () => {
+    const otpResponse = await sendEmail(email, otp);
+    if (otpResponse?.status === 2000) {
+      setData({ ...store, otp: otpResponse?.otp });
+      router.push("/email-verification");
+    }
+  };
   const mutation: any = useMutation({
     mutationKey: ["signUp"],
-    mutationFn: () => createAccountHandler(name, email, password, (token) => {
-      window.localStorage.setItem("authToken", token);
-      router.push("/categories");
-      setData({ ...store, isAuthenticated: !!token })
-    }),
+    mutationFn: () =>
+      createAccountHandler(name, email, password, (token) => {
+        window.localStorage.setItem("authToken", token);
+        router.push("/categories");
+        setData({ ...store, isAuthenticated: !!token });
+      }),
+    onSuccess: handleOtpEmail,
   });
 
   useEffect(() => {
@@ -53,9 +58,12 @@ export const SignUp = (props: any) => {
       });
     }
   }, [mutation.data?.token, mutation.data?.error]);
+
   return (
     <div className="flex flex-col items-center border-2 border-gray-400 rounded-xl pl-12 pr-12 pb-4 w-576 h-614">
-      <p className="text-4xl pb-6 pt-16 font-inter text-32 font-semibold leading-38.73 text-left">Create your account</p>
+      <p className="text-4xl pb-6 pt-16 font-inter text-32 font-semibold leading-38.73 text-left">
+        Create your account
+      </p>
       <div className="flex flex-col gap-10">
         <Input
           placeholder="Please enter name"
