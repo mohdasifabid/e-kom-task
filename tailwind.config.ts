@@ -18,6 +18,8 @@ const config: Config = {
         '456': '456px',
         '576': '576px',
         '27': '27px',
+        '46': '46px',
+
 
       },
       height: {
@@ -29,11 +31,12 @@ const config: Config = {
         '36': '36px',
         '27': '27px',
         "614": "614px",
-        "691": "691px"
+        "691": "691px",
+        "576": "576px"
 
       },
       padding: {
-        "176": "176px"
+        "176": "176px",
       },
       fontFamily: {
         'inter': ['Inter'],
