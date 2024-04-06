@@ -4,23 +4,16 @@ import { useEffect } from "react";
 import { useData } from "./context";
 
 export default function Home() {
-  const { store, setData } = useData()
+  const { store, setData } = useData();
+  const userInfo = store?.userInfo;
   const router = useRouter();
 
   useEffect(() => {
-    const token = window.localStorage.getItem("authToken")
-    if (store.isAuthenticated) {
+    if (userInfo?.isVerified) {
       router.push("/categories");
-    } else if (!!token) {
-      setData({ ...store, isAuthenticated: !!token })
-      router.push("/categories");
-    } else {
-      router.push("/login");
     }
-  }, [store.isAuthenticated]);
+    router.push("/email-varification");
+  }, [userInfo?.isVerified]);
 
-  return (
-    <main className="flex min-h-screen min-w-screen bg-white">
-    </main>
-  );
+  return <main className="flex min-h-screen min-w-screen bg-white"></main>;
 }

@@ -39,9 +39,7 @@ export const SignUp = (props: any) => {
     mutationKey: ["signUp"],
     mutationFn: () =>
       createAccountHandler(name, email, password, (token) => {
-        window.localStorage.setItem("authToken", token);
-        router.push("/categories");
-        setData({ ...store, isAuthenticated: !!token });
+        router.push("/email-verification")
       }),
     onSuccess: handleOtpEmail,
   });
