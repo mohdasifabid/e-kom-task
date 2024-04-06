@@ -64,3 +64,16 @@ export const createAccountHandler = async (name: string | "", email: string | ""
         return error?.response.data
     }
 };
+
+export const maskEmail = (email: string, setMaskedEmail: React.Dispatch<React.SetStateAction<string>>) => {
+    const atIndex = email.indexOf('@');
+
+    if (atIndex !== -1) {
+        const username = email.substring(0, atIndex);
+        const maskedUsername = username.substring(0, Math.max(0, username.length - 3)) + '***';
+        const maskedEmailAddress = maskedUsername + email.substring(atIndex);
+        setMaskedEmail(maskedEmailAddress);
+    } else {
+        console.error('Invalid email address:', email);
+    }
+};
