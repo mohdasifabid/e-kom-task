@@ -67,12 +67,12 @@ export const Navbar = (props: any) => {
         <p className="text-32 font-bold leading-39 text-left">ECOMMERCE</p>
         <div className="flex justify-between">
           <div className="flex gap-4">
-            <button
+            <p
               onClick={() => handleCategoryClick(isAuthenticated, router)}
-              className="text-base font-semibold leading-5 text-left"
+              className="text-base font-semibold leading-5 text-left cursor-pointer"
             >
               Categories
-            </button>
+            </p>
             <p className="text-base font-semibold leading-5 text-left">Sale</p>
             <p className="text-base font-semibold leading-5 text-left">
               Clearance

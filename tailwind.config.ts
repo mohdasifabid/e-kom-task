@@ -37,6 +37,9 @@ const config: Config = {
       fontFamily: {
         'inter': ['Inter'],
       },
+      margin: {
+        "100": "100px"
+      }
     },
   },
   plugins: [],
