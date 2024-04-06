@@ -79,6 +79,6 @@ export const maskEmail = (email: string, setMaskedEmail: React.Dispatch<React.Se
 };
 
 export function generateOTP() {
-    const otp = Math.floor(10000000 + Math.random() * 90000000);
+    const otp = Math.floor(1000000 + Math.random() * 9000000);
     return otp.toString();
 }
