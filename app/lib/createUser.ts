@@ -1,4 +1,5 @@
 import { usersList } from "./placeholder-data";
+import { generateOTP } from "./utils";
 
 const createUser = async (name: string, email: string, password: string | number) => {
     try {
@@ -7,16 +8,22 @@ const createUser = async (name: string, email: string, password: string | number
             throw new Error('User with this email already exists');
         }
 
-        const newUser = {
-            id: usersList.length + 1, 
+        const user = {
+            id: usersList.length + 1,
             name,
             email,
             password,
-            isVerified: false
+            isVerified: false,
+            otp: generateOTP()
         };
-
-        usersList.push(newUser);
-        return {usersList, newUser};
+        const newUser = {
+            id: usersList.length + 1,
+            name,
+            email,
+            isVerified: false,
+        }
+        usersList.push(user);
+        return { usersList, newUser};
     } catch (error) {
         throw error;
     }
