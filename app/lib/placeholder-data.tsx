@@ -24,12 +24,14 @@ export const usersList: any = [
     name: "Guest User",
     email: "guest@user.com",
     password: "guestUser123",
+    isVerified: false,
   },
   {
     id: 2,
     name: "John Doe",
     username: "john@doe.in",
     password: "johnDoe123",
+    isVerified: false,
   },
 ];
 export const categories = [
@@ -134,5 +136,3 @@ export const categories = [
   { id: 99, categoryName: "Yoga Accessories", interested: true },
   { id: 100, categoryName: "Fitness Accessories", interested: false },
 ];
-
-

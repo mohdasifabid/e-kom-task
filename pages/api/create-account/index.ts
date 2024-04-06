@@ -12,13 +12,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
     if (req.method === "POST") {
         try {
             const { name, email, password }: User = req.body;
-            const users = await createUser(name, email, password);
-            const token = authenticateUser(email, password)
+            const { usersList, newUser } = await createUser(name, email, password);
             if (name && email && password) {
                 res.status(201).json({
-                    ...users, token, success: "Account created successfully!"
+                    newUser, success: "Account created successfully!"
                 })
-            }else{
+            } else {
                 res.status(401).json({ error: "Account creation failed!" });
             }
 

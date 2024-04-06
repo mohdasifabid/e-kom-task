@@ -11,7 +11,8 @@ const createUser = async (name: string, email: string, password: string | number
             id: usersList.length + 1, 
             name,
             email,
-            password
+            password,
+            isVerified: false
         };
 
         usersList.push(newUser);
