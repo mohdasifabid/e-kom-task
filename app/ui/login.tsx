@@ -20,16 +20,17 @@ export const Login = (props: any) => {
     string | number,
     React.Dispatch<React.SetStateAction<any>>
   ] = useState("");
-  useAuth("/login")
+  useAuth("/login");
 
-  const { store, setData } = useData()
+  const { store, setData } = useData();
   const mutation = useMutation({
     mutationKey: ["login"],
-    mutationFn: () => loginHandler(email, password, (token) => {
-      window.localStorage.setItem("authToken", token);
-      router.push("/categories");
-      setData({ ...store, isAuthenticated: !!token })
-    }),
+    mutationFn: () =>
+      loginHandler(email, password, (token) => {
+        window.localStorage.setItem("authToken", token);
+        router.push("/categories");
+        setData({ ...store, isAuthenticated: !!token });
+      }),
   });
   const handleNavigationToSignUpPage = () => router.push("/create-account");
   useEffect(() => {
@@ -45,7 +46,7 @@ export const Login = (props: any) => {
     }
   }, [mutation.data?.token, mutation.data?.error]);
   return (
-    <div className="flex flex-col items-center border-2 border-gray-400 rounded-xl pl-12 pr-12 pb-4 w-576 h-614">
+    <div className="flex flex-col items-center border-2 border-gray-400 rounded-xl pl-12 pr-12 pb-4 w-576 h-691">
       <p className="text-3xl font-600 mb-4 pt-16">Login</p>
       <p className="text-2xl font-500">Welcome back to ECOMMERCE</p>
       <p className="mb-4 font-400"> The next gen business marketplace</p>
