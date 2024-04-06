@@ -1,38 +1,46 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 
-import { Button } from "./button";
-import { Input } from "./input";
-import { loginHandler, validateEmail, validatePassword } from "../lib/utils";
+import { Input } from "./Input";
+import { Button } from "./Button";
+import {
+  createAccountHandler,
+  handleNavigationToSignInPage,
+  validateEmail,
+  validateName,
+  validatePassword,
+} from "../lib/utils";
 import { useData } from "../context";
 import { useAuth } from "../lib/useAuth";
 
-export const Login = (props: any) => {
+export const SignUp = (props: any) => {
   const router = useRouter();
+  const [name, setName]: [
+    string,
+    React.Dispatch<React.SetStateAction<string>>
+  ] = useState("");
   const [email, setEmail]: [
     string,
     React.Dispatch<React.SetStateAction<string>>
   ] = useState("");
-
   const [password, setPassword]: [
     string | number,
     React.Dispatch<React.SetStateAction<any>>
   ] = useState("");
-  useAuth("/login");
-
-  const { store, setData } = useData();
-  const mutation = useMutation({
-    mutationKey: ["login"],
-    mutationFn: () =>
-      loginHandler(email, password, (token) => {
-        window.localStorage.setItem("authToken", token);
-        router.push("/categories");
-        setData({ ...store, isAuthenticated: !!token });
-      }),
+  const { store, setData } = useData()
+  useAuth("/create-account")
+  const mutation: any = useMutation({
+    mutationKey: ["signUp"],
+    mutationFn: () => createAccountHandler(name, email, password, (token) => {
+      window.localStorage.setItem("authToken", token);
+      router.push("/categories");
+      setData({ ...store, isAuthenticated: !!token })
+    }),
   });
-  const handleNavigationToSignUpPage = () => router.push("/create-account");
+
   useEffect(() => {
     if (mutation.data?.token || mutation.data?.error) {
       setData({
@@ -46,11 +54,17 @@ export const Login = (props: any) => {
     }
   }, [mutation.data?.token, mutation.data?.error]);
   return (
-    <div className="flex flex-col items-center border-2 border-gray-400 rounded-xl pl-12 pr-12 pb-4 w-576 h-691">
-      <p className="text-3xl font-600 mb-4 pt-16">Login</p>
-      <p className="text-2xl font-500">Welcome back to ECOMMERCE</p>
-      <p className="mb-4 font-400"> The next gen business marketplace</p>
+    <div className="flex flex-col items-center border-2 border-gray-400 rounded-xl pl-12 pr-12 pb-4 w-576 h-614">
+      <p className="text-4xl pb-6 pt-16 font-inter text-32 font-semibold leading-38.73 text-left">Create your account</p>
       <div className="flex flex-col gap-10">
+        <Input
+          placeholder="Please enter name"
+          label="Name"
+          type="text"
+          setter={setName}
+          validate={validateName}
+        />
+
         <Input
           placeholder="Please enter email"
           label="Email"
@@ -67,16 +81,19 @@ export const Login = (props: any) => {
         />
         <span className="pt-2">
           <Button
-            btnName="Login"
+            btnName="CREATE ACCOUNT"
             onClick={mutation.mutate}
-            isDisabled={!(email && password)}
+            isDisabled={!(name && password && email)}
           />
         </span>
         <hr />
         <p className="flex justify-center pb-3 gap-3">
-          Dont have an Account?{" "}
-          <a className="cursor-pointer" onClick={handleNavigationToSignUpPage}>
-            SIGN UP
+          Have an Account?{" "}
+          <a
+            className="cursor-pointer"
+            onClick={() => handleNavigationToSignInPage(router)}
+          >
+            Login
           </a>
         </p>
       </div>

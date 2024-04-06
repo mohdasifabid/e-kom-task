@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 
-import { Layout } from "../ui/appLayout";
-import { Interest } from "../ui/interest";
-import { Pagination } from "../ui/pagination";
+import { Layout } from "../ui/Layout";
+import { Interest } from "../ui/Interest";
+import { Pagination } from "../ui/Pagination";
 import Loader from "../loader";
 import { useData } from "../context";
 import { useAuth } from "../lib/useAuth";

@@ -7,8 +7,8 @@ import useSuccessMsg from "../lib/useSuccessMsg";
 import SuccessAlert from "../alerts/successAlert";
 import { handleCategoryClick } from "../lib/utils";
 import { useData } from "../context";
-import CartIcon from "./components/CartIcon";
-import SearchIcon from "./components/SearchIcon";
+import CartIcon from "./CartIcon";
+import SearchIcon from "./SearchIcon";
 
 export const Navbar = (props: any) => {
   const router = useRouter();

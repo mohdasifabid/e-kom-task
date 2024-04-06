@@ -1,5 +1,5 @@
 import { BASE_URL } from "../lib/utils";
-import { Layout } from "../ui/appLayout";
+import { Layout } from "../ui/Layout";
 
 const Home = () => {
   if (!BASE_URL) {

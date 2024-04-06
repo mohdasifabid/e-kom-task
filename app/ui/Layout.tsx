@@ -1,5 +1,5 @@
-import OfferBar from "./components/OfferBar";
-import { Navbar } from "./navbar";
+import OfferBar from "./OfferBar";
+import { Navbar } from "./Navbar";
 
 const layoutChildrenStyle: any = { top: "144px", position: "relative" };
 

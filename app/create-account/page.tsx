@@ -1,5 +1,5 @@
-import { Layout } from "../ui/appLayout";
-import { SignUp } from "../ui/signUp";
+import { Layout } from "../ui/Layout";
+import { SignUp } from "../ui/SignUp";
 
 const SignUpPage = () => {
   return (
