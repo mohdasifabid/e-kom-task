@@ -29,7 +29,7 @@ export const usersList: any = [
   {
     id: 2,
     name: "John Doe",
-    username: "john@doe.in",
+    email: "john@doe.in",
     password: "johnDoe123",
     isVerified: false,
   },

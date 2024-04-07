@@ -27,7 +27,6 @@ export const Navbar = (props: any) => {
       return () => clearTimeout(timeout);
     }
   }, [errorMsg]);
-
   return (
     <nav className="h-100 w-full px-10 py-2 fixed top-0 z-100 flex flex-col justify-between">
       {isSuccessAlertAlive && <SuccessAlert message={successMsg} />}
@@ -38,7 +37,7 @@ export const Navbar = (props: any) => {
           Orders & Returns
         </p>
         <p className=" text-xs font-normal leading-4 text-left">
-          Hi, {loginRes?.newUser?.name}
+          Hi, {store?.userInfo?.name || ""}
         </p>
         {isAuthenticated ? (
           <button
