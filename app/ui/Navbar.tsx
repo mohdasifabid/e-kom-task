@@ -28,7 +28,7 @@ export const Navbar = (props: any) => {
     }
   }, [errorMsg]);
   return (
-    <nav className="h-100 w-full px-10 py-2 fixed top-0 z-100 flex flex-col justify-between">
+    <nav className="h-100 w-full px-10 py-2 fixed top-0 z-100 flex flex-col justify-between bg-white">
       {isSuccessAlertAlive && <SuccessAlert message={successMsg} />}
       {isErrorAlertActive && <ErrorAlert message={errorMsg} />}
       <div className="flex justify-end gap-4 h-9 items-center">
