@@ -16,7 +16,7 @@ const InterestPage = () => {
   const { store, setData } = useData();
   const { currentPage, isAuthenticated } = store;
   const router = useRouter();
-  useAuth("/login");
+  useAuth();
   const endPoint = `${BASE_URL}/api/get-categories?pageNumber=${
     currentPage || 1
   }&recordsPerPage=${6}`;

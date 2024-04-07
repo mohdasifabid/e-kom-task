@@ -4,18 +4,26 @@ import { useRouter } from "next/navigation";
 import { useData } from "../context";
 import { useEffect } from "react";
 
-export const useAuth = (path) => {
-    const { store, setData } = useData()
+export const useAuth = (path?: string) => {
+    const { store } = useData()
     const router = useRouter();
     useEffect(() => {
-        const token = window.localStorage.getItem("authToken")
-        if (store.isAuthenticated) {
+        if (store.isAuthenticated && store?.userInfo?.isVerified) {
             router.push("/categories");
-        } else if (!!token) {
-            setData({ ...store, isAuthenticated: !!token })
-            router.push("/categories");
+
+        } else if (
+            store.isAuthenticated && !store?.userInfo?.isVerified
+        ) {
+            router.push("/email-verification");
         } else {
-            router.push(path);
+            if (path) {
+                ``
+                router.push(path);
+
+            } else {
+                router.push("/login");
+
+            }
         }
-    }, [store.isAuthenticated]);
+    }, [store.isAuthenticated, path, router, store?.userInfo?.isVerified]);
 }

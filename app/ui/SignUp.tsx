@@ -25,13 +25,14 @@ export const SignUp = (props: any) => {
   const [password, setPassword] = useState("");
   const { store, setData } = useData();
   useAuth("/register");
-  const otp = generateOTP();
 
   const mutation: any = useMutation({
     mutationKey: ["signUp"],
     mutationFn: () => createAccountHandler(name, email, password),
     onSuccess: (data) => {
-      setData({ ...store, userInfo: data?.newUser });
+      window.localStorage.setItem("authToken", data.token)
+      
+      setData({ ...store, userInfo: data });
       router.push("/email-verification");
     },
   });
@@ -40,7 +41,7 @@ export const SignUp = (props: any) => {
     if (mutation.data?.token || mutation.data?.error) {
       setData({
         ...store,
-        userInfo: mutation.data?.currentUser || {},
+        userInfo: mutation.data || {},
         loginRes: mutation?.data || {},
         isAuthenticated: !!mutation.data?.token || false,
         successMsg: mutation.data?.success || "",

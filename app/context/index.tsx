@@ -9,7 +9,6 @@ const initalState = {
   userInfo: {},
   isSuccessAlertAlive: false,
   isErrorAlertActive: false,
-  otp: "",
 };
 const DataContext = createContext<{
   store: Data;
