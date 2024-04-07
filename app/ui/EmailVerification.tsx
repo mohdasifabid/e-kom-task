@@ -1,15 +1,25 @@
 "use client";
 
 import { Button } from "./Button";
-import { maskEmail} from "../lib/utils";
+import { maskEmail } from "../lib/utils";
 import { useEffect, useState } from "react";
 import OtpInput from "./OtpInput";
 import { useData } from "../context";
 
 export const EmailVerification = (props: any) => {
   const [maskedEmail, setMaskedEmail] = useState("");
-  const {store,setData} = useData()
-
+  const [otpValues, setOtpValues] = useState<string[]>([
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+  ]);
+  const { store, setData } = useData();
+  const otpStirng = otpValues?.join("");
+  const otp = "1234567";
   useEffect(() => {
     maskEmail(store?.userInfo?.email, setMaskedEmail);
   }, []);
@@ -26,10 +36,10 @@ export const EmailVerification = (props: any) => {
       </div>
       <div className="pt-10">
         <p>Code</p>
-        <OtpInput />
+        <OtpInput otpValues={otpValues} setOtpValues={setOtpValues} />
       </div>
       <div className="pt-16">
-        <Button btnName="Verify" />
+        <Button btnName="Verify" isDisabled={otpStirng?.length < 7} />
       </div>
     </div>
   );

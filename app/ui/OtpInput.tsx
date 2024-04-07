@@ -1,16 +1,9 @@
 import { useState, useRef, ChangeEvent } from "react";
+import { useData } from "../context";
 
-const OtpInput: React.FC = () => {
+const OtpInput: React.FC = ({otpValues, setOtpValues}:any) => {
+ const {store, setData} = useData()
 
-  const [otpValues, setOtpValues] = useState<string[]>([
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-  ]);
 
   const inputRefs = useRef<(HTMLInputElement | null)[]>(
     new Array(7).fill(null)
@@ -22,7 +15,9 @@ const OtpInput: React.FC = () => {
     setOtpValues(newOtpValues);
     if (value && index < 6) {
       inputRefs.current[index + 1]?.focus();
+      
     }
+
   };
 
   const handleKeyDown = (
@@ -42,7 +37,7 @@ const OtpInput: React.FC = () => {
 
   return (
     <div className="flex gap-5">
-      {otpValues.map((value, index) => (
+      {otpValues?.map((value, index) => (
         <input
           key={index}
           className="w-46 h-48 border border-gray-400 rounded-md text-2xl text-center"
