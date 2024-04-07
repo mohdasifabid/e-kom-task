@@ -1,7 +1,5 @@
-import getConfig from "next/config";
 import { Sequelize, DataTypes } from "sequelize";
 import { Pool } from "pg";
-const { serverRuntimeConfig } = getConfig();
 
 export const db = {
     initialized: false,
@@ -9,7 +7,7 @@ export const db = {
 };
 
 async function initialize() {
-    const { DB_URL } = serverRuntimeConfig.dbConfig;
+    const DB_URL = process.env.DB_URL;
     const pool = new Pool({
         connectionString: DB_URL,
         ssl: true,
@@ -51,7 +49,7 @@ function userModel(sequelize) {
                 isEmail: true,
             },
         },
-        isVerified: { type: DataTypes.BOOLEAN, default: false },
+        isVerified: { type: DataTypes.BOOLEAN, defaultValue: false },
     };
 
     const options = {

@@ -1,8 +1,6 @@
-import authenticateUser from '@/app/lib/authenticaton';
-import createUser from '@/app/lib/createUser';
 import { registerUser } from '@/helpers/users';
 import type { NextApiRequest, NextApiResponse } from 'next';
-
+import { db } from '@/helpers/db';
 type User = {
     name: string;
     email: string;
@@ -10,6 +8,8 @@ type User = {
 };
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
+    if (!db.initialized)
+        await db.initialize();
     if (req.method === "POST") {
         try {
             const response = await registerUser(req.body)
