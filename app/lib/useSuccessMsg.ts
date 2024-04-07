@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useData } from '../context';
+import useLocalStorage from './useLocalStorage';
 
 const useSuccessMsg = () => {
     const { store, setData } = useData()
-    const { isAuthenticated, isSuccessAlertAlive } = store
+    const [userInfo, setUserInfo] = useLocalStorage("userInfo")
+
+    const { isSuccessAlertAlive } = store
 
     useEffect(() => {
-        if (isAuthenticated) {
+        if (userInfo?.token) {
             setData({ ...store, isSuccessAlertAlive: true });
             const timeout = setTimeout(() => {
                 setData({ ...store, isSuccessAlertAlive: false });
@@ -14,7 +17,7 @@ const useSuccessMsg = () => {
 
             return () => clearTimeout(timeout);
         }
-    },[]);
+    }, []);
 
     return isSuccessAlertAlive;
 };

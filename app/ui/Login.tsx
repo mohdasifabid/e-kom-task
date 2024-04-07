@@ -8,6 +8,7 @@ import { Input } from "./Input";
 import { loginHandler, validateEmail, validatePassword } from "../lib/utils";
 import { useData } from "../context";
 import { useAuth } from "../lib/useAuth";
+import useLocalStorage from "../lib/useLocalStorage";
 
 export const Login = (props: any) => {
   const router = useRouter();
@@ -20,16 +21,17 @@ export const Login = (props: any) => {
     string | number,
     React.Dispatch<React.SetStateAction<any>>
   ] = useState("");
-  useAuth("/login");
+  
+  const [userInfo, setUserInfo] = useLocalStorage("userInfo")
 
   const { store, setData } = useData();
   const mutation = useMutation({
     mutationKey: ["login"],
     mutationFn: () =>
-      loginHandler(email, password, (token) => {
-        window.localStorage.setItem("authToken", token);
+      loginHandler(email, password, (data) => {
+        setUserInfo(data)
         router.push("/categories");
-        setData({ ...store, isAuthenticated: !!token });
+        
       }),
   });
   const handleNavigationToSignUpPage = () => router.push("/register");
@@ -39,7 +41,7 @@ export const Login = (props: any) => {
         ...store,
         userInfo: mutation.data?.currentUser || {},
         loginRes: mutation?.data || {},
-        isAuthenticated: !!mutation.data?.token || false,
+       
         successMsg: mutation.data?.success || "",
         errorMsg: mutation.data?.error || "",
       });

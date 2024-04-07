@@ -17,21 +17,22 @@ import {
 
 import { useData } from "../context";
 import { useAuth } from "../lib/useAuth";
+import useLocalStorage from "../lib/useLocalStorage";
 
 export const SignUp = (props: any) => {
   const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [userInfo, setUserInfo] = useLocalStorage("userInfo")
+
   const { store, setData } = useData();
-  useAuth("/register");
 
   const mutation: any = useMutation({
     mutationKey: ["signUp"],
     mutationFn: () => createAccountHandler(name, email, password),
     onSuccess: (data) => {
-      window.localStorage.setItem("authToken", data.token)
-      
+      setUserInfo(data)
       setData({ ...store, userInfo: data });
       router.push("/email-verification");
     },
@@ -43,7 +44,7 @@ export const SignUp = (props: any) => {
         ...store,
         userInfo: mutation.data || {},
         loginRes: mutation?.data || {},
-        isAuthenticated: !!mutation.data?.token || false,
+        
         successMsg: mutation.data?.success || "",
         errorMsg: mutation.data?.error || "",
       });

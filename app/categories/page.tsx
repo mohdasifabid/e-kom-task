@@ -14,9 +14,8 @@ import { BASE_URL } from "../lib/utils";
 
 const InterestPage = () => {
   const { store, setData } = useData();
-  const { currentPage, isAuthenticated } = store;
+  const { currentPage } = store;
   const router = useRouter();
-  useAuth();
   const endPoint = `${BASE_URL}/api/get-categories?pageNumber=${
     currentPage || 1
   }&recordsPerPage=${6}`;
@@ -30,11 +29,7 @@ const InterestPage = () => {
     queryKey: ["categories", currentPage],
     queryFn: () => getCategories(),
   });
-  useEffect(() => {
-    if (!isAuthenticated) {
-      router.push("/login");
-    }
-  }, [isAuthenticated]);
+ 
   return (
     <Layout>
       <div className="flex flex-col  border-2 border-gray-400 rounded-xl pl-12 pr-12 pb-4 w-576">

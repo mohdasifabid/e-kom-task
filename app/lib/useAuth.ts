@@ -1,29 +1,23 @@
 "use client"
 
 import { useRouter } from "next/navigation";
-import { useData } from "../context";
 import { useEffect } from "react";
+import useLocalStorage from "./useLocalStorage";
 
-export const useAuth = (path?: string) => {
-    const { store } = useData()
+export const useAuth = () => {
     const router = useRouter();
+    const [userInfo, setUserInfo] = useLocalStorage("userInfo")
+
     useEffect(() => {
-        if (store.isAuthenticated && store?.userInfo?.isVerified) {
-            router.push("/categories");
-
-        } else if (
-            store.isAuthenticated && !store?.userInfo?.isVerified
-        ) {
-            router.push("/email-verification");
-        } else {
-            if (path) {
-                ``
-                router.push(path);
-
+        if (userInfo?.token) {
+            if (userInfo?.isVerified) {
+                return router.push("/categories");
             } else {
-                router.push("/login");
-
+                return router.push("/email-verification")
             }
+        } else {
+            return router.push("/login")
         }
-    }, [store.isAuthenticated, path, router, store?.userInfo?.isVerified]);
+       
+    }, [router, userInfo?.isVerified, userInfo?.token]);
 }

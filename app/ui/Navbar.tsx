@@ -9,13 +9,16 @@ import { handleCategoryClick } from "../lib/utils";
 import { useData } from "../context";
 import CartIcon from "./CartIcon";
 import SearchIcon from "./SearchIcon";
+import useLocalStorage from "../lib/useLocalStorage";
 
 export const Navbar = (props: any) => {
   const router = useRouter();
   const { store, setData } = useData();
-  const { isAuthenticated, loginRes, successMsg, errorMsg } = store;
+  const { loginRes, successMsg, errorMsg } = store;
   const isSuccessAlertAlive = useSuccessMsg();
   const [isErrorAlertActive, setIsErrorAlertActive] = useState(false);
+  const [userInfo, setUserInfo] = useLocalStorage("userInfo")
+
 
   useEffect(() => {
     if (errorMsg) {
@@ -39,14 +42,13 @@ export const Navbar = (props: any) => {
         <p className=" text-xs font-normal leading-4 text-left">
           Hi, {store?.userInfo?.name || ""}
         </p>
-        {isAuthenticated ? (
+        {userInfo?.token ? (
           <button
             className="text-xs font-normal leading-4 text-left"
             onClick={() => {
               window.localStorage.clear();
               setData({
                 successMsg: "Logged out successfully",
-                isAuthenticated: false,
               });
               router.push("/login");
             }}
@@ -67,7 +69,7 @@ export const Navbar = (props: any) => {
         <div className="flex justify-between">
           <div className="flex gap-4">
             <p
-              onClick={() => handleCategoryClick(isAuthenticated, router)}
+              onClick={() => handleCategoryClick(userInfo?.token, router)}
               className="text-base font-semibold leading-5 text-left cursor-pointer"
             >
               Categories

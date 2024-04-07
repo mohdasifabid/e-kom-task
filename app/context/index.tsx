@@ -5,7 +5,6 @@ type Data = any;
 const initalState = {
   currentPage: 1,
   loginRes: {},
-  isAuthenticated: false,
   userInfo: {},
   isSuccessAlertAlive: false,
   isErrorAlertActive: false,

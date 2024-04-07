@@ -2,18 +2,14 @@
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useData } from "./context";
+import useLocalStorage from "./lib/useLocalStorage";
 
 export default function Home() {
   const { store, setData } = useData();
-  const userInfo = store?.userInfo;
-  const router = useRouter();
+  const [userInfo, setUserInfo] = useLocalStorage("userInfo")
 
-  useEffect(() => {
-    if (userInfo?.isVerified) {
-      router.push("/categories");
-    }
-    router.push("/login");
-  }, [userInfo?.isVerified]);
+  const router = useRouter();
+  
 
   return <main className="flex min-h-screen min-w-screen bg-white"></main>;
 }

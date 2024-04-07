@@ -1,3 +1,4 @@
+"use client"
 export const Button = ({ btnName, onClick, isDisabled }: any) => {
   return (
     <button
