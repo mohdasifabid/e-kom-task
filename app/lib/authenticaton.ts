@@ -1,9 +1,9 @@
 import jwt from "jsonwebtoken";
 import { usersList } from "./placeholder-data";
-const secreatKey = process.env.JWT_SECRET_KEY
+const secretKey = process.env.JWT_SECRET_KEY
 
-function generateToken(userId: number | string) {
-  return jwt.sign({ userId }, secreatKey, { expiresIn: "1h" });
+export function generateToken(userId: any) {
+  return jwt.sign( {userId} , secretKey, { expiresIn: "1h" });
 }
 
 type userInfoTypes = {

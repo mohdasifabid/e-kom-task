@@ -16,15 +16,12 @@ export async function registerUser(params) {
 
     await user.save();
     await sendOTP(params?.email, otp);
-    return user
+    return {id: user.id, email: user.email, name: user.name, isVerified: user.isVerified}
 }
 
 export async function verifyUser(params) {
-    
+
     const foundUser = await db.User.findByPk(params.id)
-    if (!foundUser) {
-        throw ("User not found")
-    }
 
     if (Number(foundUser?.otp) === Number(params?.otp)) {
         foundUser.isVerified = true;

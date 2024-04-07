@@ -17,7 +17,6 @@ import {
 
 import { useData } from "../context";
 import { useAuth } from "../lib/useAuth";
-import { sendEmail } from "../lib/sendEmail";
 
 export const SignUp = (props: any) => {
   const router = useRouter();
@@ -28,20 +27,12 @@ export const SignUp = (props: any) => {
   useAuth("/register");
   const otp = generateOTP();
 
-  const handleOtpEmail = async () => {
-    const otpResponse = await sendEmail(email, otp);
-    if (otpResponse?.status === 2000) {
-      setData({ ...store, otp: otpResponse?.otp });
-      router.push("/email-verification");
-    }
-  };
   const mutation: any = useMutation({
     mutationKey: ["signUp"],
     mutationFn: () => createAccountHandler(name, email, password),
     onSuccess: (data) => {
-      handleOtpEmail();
       setData({ ...store, userInfo: data?.newUser });
-      router.push("/email-verification")
+      router.push("/email-verification");
     },
   });
 
@@ -59,7 +50,9 @@ export const SignUp = (props: any) => {
   }, [mutation.data?.token, mutation.data?.error]);
 
   return (
-    <div className="flex flex-col items-center border-2 border-gray-400 rounded-xl pl-12 pr-12 pb-4 w-576 h-614">
+    <div
+      className="flex flex-col items-center border-2 border-gray-400 rounded-xl pl-12 pr-12 pb-4 w-576 h-614"
+    >
       <p className="text-4xl pb-6 pt-16 font-inter text-32 font-semibold leading-38.73 text-left">
         Create your account
       </p>
@@ -88,8 +81,8 @@ export const SignUp = (props: any) => {
         />
         <span className="pt-2">
           <Button
-            btnName="CREATE ACCOUNT"
             onClick={mutation.mutate}
+            btnName="CREATE ACCOUNT"
             isDisabled={!(name && password && email)}
           />
         </span>
