@@ -15,7 +15,7 @@ async function initialize() {
 
     const client = await pool.connect();
     try {
-        console.log("RAN");
+        console.log("Connected to DB...");
     } catch (error) {
         if (error.code !== "42P04") {
             throw error;
@@ -30,6 +30,7 @@ async function initialize() {
     });
 
     db.User = userModel(sequelize);
+    db.Category = categoryModel(sequelize)
 
     await sequelize.sync({ alter: true });
 
@@ -63,4 +64,13 @@ function userModel(sequelize) {
     };
 
     return sequelize.define("User", attributes, options);
+}
+function categoryModel(sequelize) {
+    const attributes = {
+        categoryName: { type: DataTypes.STRING, allowNull: false },
+        interested: { type: DataTypes.STRING, allowNull: false },
+    };
+
+
+    return sequelize.define("Category", attributes);
 }
