@@ -40,7 +40,7 @@ export const Navbar = (props: any) => {
           Orders & Returns
         </p>
         <p className=" text-xs font-normal leading-4 text-left">
-          Hi, {store?.userInfo?.name || ""}
+          Hi, {userInfo?.name || ""}
         </p>
         {userInfo?.token ? (
           <button

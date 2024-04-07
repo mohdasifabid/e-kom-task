@@ -30,8 +30,8 @@ export const loginHandler = async (email: string | "", password: string | "", ca
             password,
         });
 
-        if (res.status === 200 || 201) {
-            callback(res.data.token)
+        if (res.status === 200 || res.status === 201) {
+            callback(res.data)
         }
         return res.data
     } catch (error: any) {
