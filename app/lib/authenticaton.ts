@@ -3,7 +3,7 @@ import { usersList } from "./placeholder-data";
 const secretKey = process.env.JWT_SECRET_KEY
 
 export function generateToken(userId: any) {
-  return jwt.sign( {userId} , secretKey, { expiresIn: "1h" });
+  return jwt.sign( {userId} , secretKey, { expiresIn: "365d" });
 }
 
 type userInfoTypes = {
