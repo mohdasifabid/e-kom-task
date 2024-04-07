@@ -37,11 +37,12 @@ export const SignUp = (props: any) => {
   };
   const mutation: any = useMutation({
     mutationKey: ["signUp"],
-    mutationFn: () =>
-      createAccountHandler(name, email, password, (token) => {
-        router.push("/email-verification")
-      }),
-    onSuccess: handleOtpEmail,
+    mutationFn: () => createAccountHandler(name, email, password),
+    onSuccess: (data) => {
+      handleOtpEmail();
+      setData({ ...store, userInfo: data?.newUser });
+      router.push("/email-verification")
+    },
   });
 
   useEffect(() => {

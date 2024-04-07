@@ -49,7 +49,7 @@ export const handleCategoryClick = (isAuthenticated: boolean, router: any) => {
 export const handleNavigationToSignInPage = (router: any) => router.push("/login");
 
 
-export const createAccountHandler = async (name: string | "", email: string | "", password: string | "", callback: any) => {
+export const createAccountHandler = async (name: string | "", email: string | "", password: string | "") => {
     try {
         const res = await axios.post(`${BASE_URL}/api/create-account`, {
             name,
@@ -57,7 +57,6 @@ export const createAccountHandler = async (name: string | "", email: string | ""
             password,
         });
         if (res.status === 201) {
-            callback(res.data.token)
             return res.data
         }
     } catch (error: any) {
@@ -66,12 +65,15 @@ export const createAccountHandler = async (name: string | "", email: string | ""
 };
 
 export const maskEmail = (email: string, setMaskedEmail: React.Dispatch<React.SetStateAction<string>>) => {
-    const atIndex = email.indexOf('@');
+    if (email === undefined || email === "") {
+        return ""
+    }
+    const atIndex = email?.indexOf('@');
 
     if (atIndex !== -1) {
-        const username = email.substring(0, atIndex);
-        const maskedUsername = username.substring(0, Math.max(0, username.length - 3)) + '***';
-        const maskedEmailAddress = maskedUsername + email.substring(atIndex);
+        const username = email?.substring(0, atIndex);
+        const maskedUsername = username?.substring(0, Math.max(0, username?.length - 3)) + '***';
+        const maskedEmailAddress = maskedUsername + email?.substring(atIndex);
         setMaskedEmail(maskedEmailAddress);
     } else {
         console.error('Invalid email address:', email);

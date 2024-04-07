@@ -4,12 +4,14 @@ import { Button } from "./Button";
 import { maskEmail} from "../lib/utils";
 import { useEffect, useState } from "react";
 import OtpInput from "./OtpInput";
+import { useData } from "../context";
 
 export const EmailVerification = (props: any) => {
   const [maskedEmail, setMaskedEmail] = useState("");
+  const {store,setData} = useData()
 
   useEffect(() => {
-    maskEmail("maazdull@gmail.com", setMaskedEmail);
+    maskEmail(store?.userInfo?.email, setMaskedEmail);
   }, []);
   return (
     <div className="flex flex-col items-center border-2 border-gray-400 rounded-xl pl-12 pr-12 pb-4 w-576 h-576">
