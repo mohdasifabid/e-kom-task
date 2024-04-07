@@ -12,7 +12,7 @@ export default function Home() {
     if (userInfo?.isVerified) {
       router.push("/categories");
     }
-    router.push("/email-varification");
+    router.push("/login");
   }, [userInfo?.isVerified]);
 
   return <main className="flex min-h-screen min-w-screen bg-white"></main>;
