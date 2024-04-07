@@ -1,5 +1,6 @@
 "use client"
 import axios from "axios";
+import randomstring from "randomstring"
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_API_URL
 
 export const validateEmail = (value: string) => {
@@ -51,7 +52,7 @@ export const handleNavigationToSignInPage = (router: any) => router.push("/login
 
 export const createAccountHandler = async (name: string | "", email: string | "", password: string | "") => {
     try {
-        const res = await axios.post(`${BASE_URL}/api/create-account`, {
+        const res = await axios.post(`${BASE_URL}/api/register`, {
             name,
             email,
             password,
@@ -80,7 +81,11 @@ export const maskEmail = (email: string, setMaskedEmail: React.Dispatch<React.Se
     }
 };
 
+
+
 export function generateOTP() {
-    const otp = Math.floor(1000000 + Math.random() * 9000000);
-    return otp.toString();
+    return randomstring.generate({
+        length: 7,
+        charset: 'numeric'
+    });
 }

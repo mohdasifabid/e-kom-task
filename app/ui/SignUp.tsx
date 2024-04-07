@@ -25,7 +25,7 @@ export const SignUp = (props: any) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { store, setData } = useData();
-  useAuth("/create-account");
+  useAuth("/register");
   const otp = generateOTP();
 
   const handleOtpEmail = async () => {

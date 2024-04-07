@@ -50,7 +50,7 @@ Mock APIs are used to simulate server-side interactions. These APIs mimic the be
 
 ### Live Application
 
-The live application can be accessed [here](https://e-commerce-app-nine-chi.vercel.app/create-account).
+The live application can be accessed [here](https://e-commerce-app-nine-chi.vercel.app/register).
 
 ### Repository
 

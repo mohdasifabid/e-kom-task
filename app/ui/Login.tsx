@@ -32,7 +32,7 @@ export const Login = (props: any) => {
         setData({ ...store, isAuthenticated: !!token });
       }),
   });
-  const handleNavigationToSignUpPage = () => router.push("/create-account");
+  const handleNavigationToSignUpPage = () => router.push("/register");
   useEffect(() => {
     if (mutation.data?.token || mutation.data?.error) {
       setData({
