@@ -50,6 +50,7 @@ function userModel(sequelize) {
             },
         },
         isVerified: { type: DataTypes.BOOLEAN, defaultValue: false },
+        otp: { type: DataTypes.STRING, }
     };
 
     const options = {
