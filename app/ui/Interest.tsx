@@ -4,6 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 
 import { InterestPropsTypes } from "../lib/definitions";
 import { BASE_URL } from "../lib/utils";
+import { useData } from "../context";
 
 export const Interest = (props: InterestPropsTypes) => {
   const { interest, checked, value } = props;
@@ -11,7 +12,7 @@ export const Interest = (props: InterestPropsTypes) => {
     boolean,
     React.Dispatch<React.SetStateAction<boolean>>
   ] = useState(checked);
-
+const {store, setData} = useData()
   const updateInterestHandler = async (
     categoryId: number,
     interest: boolean
@@ -31,6 +32,24 @@ export const Interest = (props: InterestPropsTypes) => {
       categoryId: number;
       interest: boolean;
     }) => updateInterestHandler(categoryId, interest),
+    onSuccess:(data)=>{
+      setData({
+        toastStore: {
+          state: true,
+          message: data?.data?.message,
+          type: data?.data?.type,
+        },
+      });
+    },
+    onError:(error)=>{
+      setData({
+        toastStore: {
+          state: true,
+          message: error?.message,
+          type: error?.type,
+        },
+      });
+    }
   });
 
   return (

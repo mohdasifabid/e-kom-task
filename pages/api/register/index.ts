@@ -16,11 +16,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
         try {
             const user = await registerUser(req.body)
             const token = generateToken(user.id)
-            res.status(201).json({ ...user, token})
+            res.status(201).json({ ...user, token, message: "User registered successfully!", type: "success" })
 
         } catch (error) {
             res.status(400).json({
-                message: "Failed to register the user"
+                message: "User registration failed",
+                type: "error"
+
             })
         }
     } else {

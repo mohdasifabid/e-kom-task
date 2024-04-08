@@ -20,7 +20,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<ResponseData>) 
             if (!(user && bcrypt.compareSync(req.body.password, user.hash))) {
                 throw 'Email or password is incorrect';
             }
-            res.status(201).json({ email: user.email, id: user.id, name: user.name, isVerified: user.isVerified, token })
+            res.status(201).json({ email: user.email, id: user.id, name: user.name, isVerified: user.isVerified, token, message: "Logged in successfully" })
 
         } catch (error) {
             res.status(400).json({

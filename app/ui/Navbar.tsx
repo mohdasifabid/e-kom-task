@@ -10,6 +10,7 @@ import { useData } from "../context";
 import CartIcon from "./CartIcon";
 import SearchIcon from "./SearchIcon";
 import useLocalStorage from "../lib/useLocalStorage";
+import { Toast } from "./Toast";
 
 export const Navbar = (props: any) => {
   const router = useRouter();
@@ -17,23 +18,17 @@ export const Navbar = (props: any) => {
   const { loginRes, successMsg, errorMsg } = store;
   const isSuccessAlertAlive = useSuccessMsg();
   const [isErrorAlertActive, setIsErrorAlertActive] = useState(false);
-  const [userInfo, setUserInfo] = useLocalStorage("userInfo")
+  const [userInfo, setUserInfo] = useLocalStorage("userInfo");
 
-
-  useEffect(() => {
-    if (errorMsg) {
-      setIsErrorAlertActive(true);
-      const timeout = setTimeout(() => {
-        setIsErrorAlertActive(false);
-      }, 5000);
-
-      return () => clearTimeout(timeout);
-    }
-  }, [errorMsg]);
+  
   return (
     <nav className="h-100 w-full px-10 py-2 fixed top-0 z-100 flex flex-col justify-between bg-white">
-      {isSuccessAlertAlive && <SuccessAlert message={successMsg} />}
-      {isErrorAlertActive && <ErrorAlert message={errorMsg} />}
+      {store?.toastStore?.state && (
+        <Toast
+          message={store?.toastStore?.message}
+          type={store?.toastStore?.type}
+        />
+      )}
       <div className="flex justify-end gap-4 h-9 items-center">
         <p className=" text-xs font-normal leading-4 text-left">Help</p>
         <p className=" text-xs font-normal leading-4 text-left">

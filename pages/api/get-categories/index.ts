@@ -52,14 +52,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             await itemToUpdate.update({
                 interested: req.body.interested,
             });
-            res.status(200).json(itemToUpdate)
+            res.status(200).json({...itemToUpdate.dataValues, message: "Interest updated successfully", type: "success"}, )
         } catch (error) {
-            res.status(405).json({ success: false, message: 'Bad Request' });
+            res.status(405).json({ message: 'Interest updation failed', type: "error" });
         }
 
     }
     else {
-        res.status(405).json({ success: false, message: 'Method Not Allowed' });
+        res.status(405).json({ message: 'Method Not Allowed' });
     }
 }
 

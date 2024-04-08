@@ -24,7 +24,7 @@ export const Pagination = (props: PaginationPropsType) => {
         key={i}
         className={` ${i == currentPage ? `text-black` : `text-gray-400`}`}
         onClick={() => {
-          setData({ ...store, currentPage: i });
+          setData({ currentPage: i });
         }}
       >
         {i}
@@ -39,7 +39,7 @@ export const Pagination = (props: PaginationPropsType) => {
       <button
         className={`${isPreviousIconDisabled && "cursor-not-allowed"}`}
         disabled={isPreviousIconDisabled}
-        onClick={() => setData({ ...store, currentPage: currentPage - 1 })}
+        onClick={() => setData({  currentPage: currentPage - 1 })}
       >
         <FcPrevious />
       </button>
@@ -47,7 +47,7 @@ export const Pagination = (props: PaginationPropsType) => {
       <button
         className={`${isNextIconDisabled && "cursor-not-allowed"}`}
         disabled={isNextIconDisabled}
-        onClick={() => setData({ ...store, currentPage: currentPage + 1 })}
+        onClick={() => setData({  currentPage: currentPage + 1 })}
       >
         <FcNext />
       </button>

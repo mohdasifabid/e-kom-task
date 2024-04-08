@@ -10,9 +10,9 @@ const useSuccessMsg = () => {
 
     useEffect(() => {
         if (userInfo?.token) {
-            setData({ ...store, isSuccessAlertAlive: true });
+            setData({ isSuccessAlertAlive: true });
             const timeout = setTimeout(() => {
-                setData({ ...store, isSuccessAlertAlive: false });
+                setData({ isSuccessAlertAlive: false });
             }, 5000);
 
             return () => clearTimeout(timeout);

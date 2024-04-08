@@ -25,6 +25,7 @@ export const EmailVerification = (props: any) => {
   const router = useRouter();
   const [userInfo, setUserInfo] = useLocalStorage("userInfo");
   const otpString = otpValues?.join("");
+  const {store, setData} = useData()
   useEffect(() => {
     maskEmail(userInfo?.email, setMaskedEmail);
   }, []);
@@ -45,6 +46,15 @@ export const EmailVerification = (props: any) => {
   const { mutate, isPending } = useMutation({
     mutationKey: ["emailVerification"],
     mutationFn: handleVerification,
+    onSuccess:(data:any)=>{
+      setData({
+        toastStore: {
+          state: true,
+          message: data?.isVerified ? "Email verified successfully" : "Email verification failed",
+          type: data?.isVerified ? "success": "error",
+        },
+      });
+    }
   });
   return (
     <div className="flex flex-col items-center border-2 border-gray-400 rounded-xl pl-12 pr-12 pb-4 w-576 h-576">

@@ -7,6 +7,7 @@ import { Button } from "./Button";
 import { Input } from "./Input";
 import { loginHandler, validateEmail, validatePassword } from "../lib/utils";
 import useLocalStorage from "../lib/useLocalStorage";
+import { useData } from "../context";
 
 export const Login = (props: any) => {
   const router = useRouter();
@@ -14,25 +15,32 @@ export const Login = (props: any) => {
     string,
     React.Dispatch<React.SetStateAction<string>>
   ] = useState("");
+  const { store, setData } = useData();
 
   const [password, setPassword]: [
     string | number,
     React.Dispatch<React.SetStateAction<any>>
   ] = useState("");
-  
-  const [userInfo, setUserInfo] = useLocalStorage("userInfo")
+
+  const [userInfo, setUserInfo] = useLocalStorage("userInfo");
 
   const mutation = useMutation({
     mutationKey: ["login"],
     mutationFn: () =>
       loginHandler(email, password, (data) => {
-        setUserInfo(data)
+        setUserInfo(data);
+        setData({
+          toastStore: {
+            state: true,
+            message: data?.message,
+            type: "success",
+          },
+        });
         router.push("/categories");
-        
       }),
   });
   const handleNavigationToSignUpPage = () => router.push("/register");
- 
+
   return (
     <div className="flex flex-col items-center border-2 border-gray-400 rounded-xl pl-12 pr-12 pb-4 w-576 h-691">
       <p className="text-3xl font-600 mb-4 pt-16">Login</p>

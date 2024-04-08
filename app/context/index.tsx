@@ -8,6 +8,11 @@ const initalState = {
   userInfo: {},
   isSuccessAlertAlive: false,
   isErrorAlertActive: false,
+  toastStore: {
+    state: false,
+    message: "",
+    type: "",
+  },
 };
 const DataContext = createContext<{
   store: Data;
@@ -18,7 +23,10 @@ const DataContext = createContext<{
 });
 
 export const DataProvider = ({ children }: { children: React.ReactNode }) => {
-  const [store, setData] = useState<Data>(initalState);
+  const [store, setStoreData] = useState<Data>(initalState);
+  const setData = (data) => {
+    setStoreData((prevState) => ({ ...prevState, ...data }));
+  };
 
   return (
     <DataContext.Provider value={{ store, setData }}>

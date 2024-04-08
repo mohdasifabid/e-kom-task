@@ -31,9 +31,25 @@ export const SignUp = (props: any) => {
     mutationFn: () => createAccountHandler(name, email, password),
     onSuccess: (data) => {
       setUserInfo(data);
-      setData({ ...store, userInfo: data });
+      setData({ userInfo: data , });
+      setData({
+        toastStore: {
+          state: true,
+          message: data?.message,
+          type: data?.type,
+        },
+      });
       router.push("/email-verification");
     },
+    onError:(error)=>{
+      setData({
+        toastStore: {
+          state: true,
+          message: error?.message,
+          type: error?.type,
+        },
+      });
+    }
   });
   return (
     <div className="flex flex-col items-center border-2 border-gray-400 rounded-xl pl-12 pr-12 pb-4 w-576 h-614">
