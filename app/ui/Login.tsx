@@ -1,13 +1,11 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 
 import { Button } from "./Button";
 import { Input } from "./Input";
 import { loginHandler, validateEmail, validatePassword } from "../lib/utils";
-import { useData } from "../context";
-import { useAuth } from "../lib/useAuth";
 import useLocalStorage from "../lib/useLocalStorage";
 
 export const Login = (props: any) => {
@@ -24,7 +22,6 @@ export const Login = (props: any) => {
   
   const [userInfo, setUserInfo] = useLocalStorage("userInfo")
 
-  const { store, setData } = useData();
   const mutation = useMutation({
     mutationKey: ["login"],
     mutationFn: () =>
@@ -35,18 +32,7 @@ export const Login = (props: any) => {
       }),
   });
   const handleNavigationToSignUpPage = () => router.push("/register");
-  useEffect(() => {
-    if (mutation.data?.token || mutation.data?.error) {
-      setData({
-        ...store,
-        userInfo: mutation.data?.currentUser || {},
-        loginRes: mutation?.data || {},
-       
-        successMsg: mutation.data?.success || "",
-        errorMsg: mutation.data?.error || "",
-      });
-    }
-  }, [mutation.data?.token, mutation.data?.error]);
+ 
   return (
     <div className="flex flex-col items-center border-2 border-gray-400 rounded-xl pl-12 pr-12 pb-4 w-576 h-691">
       <p className="text-3xl font-600 mb-4 pt-16">Login</p>
@@ -69,9 +55,9 @@ export const Login = (props: any) => {
         />
         <span className="pt-2">
           <Button
-            btnName="Login"
+            btnName={mutation.isPending ? "Logging in..." : "Login"}
             onClick={mutation.mutate}
-            isDisabled={!(email && password)}
+            isDisabled={!(email && password) || mutation.isPending}
           />
         </span>
         <hr />
