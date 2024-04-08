@@ -9,6 +9,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import useLocalStorage from "../lib/useLocalStorage";
 import { useAuth } from "../lib/useAuth";
+import { useMutation } from "@tanstack/react-query";
 
 export const EmailVerification = (props: any) => {
   const [maskedEmail, setMaskedEmail] = useState("");
@@ -22,7 +23,7 @@ export const EmailVerification = (props: any) => {
     "",
   ]);
   const router = useRouter();
-  const [userInfo, setUserInfo] = useLocalStorage("userInfo")
+  const [userInfo, setUserInfo] = useLocalStorage("userInfo");
   const otpString = otpValues?.join("");
   useEffect(() => {
     maskEmail(userInfo?.email, setMaskedEmail);
@@ -35,13 +36,16 @@ export const EmailVerification = (props: any) => {
     });
 
     if (res.status === 200) {
-      const updatedUserInfo = {...userInfo, isVerified: res.data.isVerified}
-       setUserInfo(updatedUserInfo)
+      const updatedUserInfo = { ...userInfo, isVerified: res.data.isVerified };
+      setUserInfo(updatedUserInfo);
 
-    
       router.push("/categories");
     }
   };
+  const { mutate, isPending } = useMutation({
+    mutationKey: ["emailVerification"],
+    mutationFn: handleVerification,
+  });
   return (
     <div className="flex flex-col items-center border-2 border-gray-400 rounded-xl pl-12 pr-12 pb-4 w-576 h-576">
       <p className="font-inter text-3xl pt-16 font-semibold leading-38.73 text-left">
@@ -59,9 +63,9 @@ export const EmailVerification = (props: any) => {
       </div>
       <div className="pt-16">
         <Button
-          btnName="Verify"
-          isDisabled={otpString?.length < 7}
-          onClick={handleVerification}
+          btnName={isPending ? "Verifying email..." : "Verify"}
+          isDisabled={otpString?.length < 7 || isPending}
+          onClick={mutate}
         />
       </div>
     </div>
