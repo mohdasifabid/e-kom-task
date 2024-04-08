@@ -14,7 +14,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             const page = Number(pageNumber);
             const limit = Number(recordsPerPage)
             const offset = (page - 1) * limit;
-            const items = await db.Category.findAll();
+            const items = await db.Category.findAll({
+                limit: limit,
+                offset: offset,
+            });
             const totalCount = await db.Category.count();
 
             res.status(200).json({ categories: items, recordsPerPage: limit, pageNumber: page, totalPages: Math.ceil(totalCount / limit) })

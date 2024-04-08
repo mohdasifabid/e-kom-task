@@ -16,9 +16,9 @@ export const Interest = (props: InterestPropsTypes) => {
     categoryId: number,
     interest: boolean
   ) => {
-    const res = await axios.put(`${BASE_URL}/api/update-interest`, {
-      categoryId: Number(categoryId),
-      interest,
+    const res = await axios.patch(`${BASE_URL}/api/get-categories`, {
+      id: Number(categoryId),
+      interested: interest,
     });
     return res;
   };
