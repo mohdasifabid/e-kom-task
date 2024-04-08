@@ -67,7 +67,7 @@ function userModel(sequelize) {
 }
 function categoryModel(sequelize) {
     const attributes = {
-        categoryName: { type: DataTypes.STRING, defaultValue: "" },
+        categoryName: { type: DataTypes.STRING,  allowNull: false },
         interested: { type: DataTypes.BOOLEAN, defaultValue: false },
     };
 
