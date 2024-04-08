@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 
@@ -8,7 +8,6 @@ import { Input } from "./Input";
 import { Button } from "./Button";
 import {
   createAccountHandler,
-  generateOTP,
   handleNavigationToSignInPage,
   validateEmail,
   validateName,
@@ -16,7 +15,6 @@ import {
 } from "../lib/utils";
 
 import { useData } from "../context";
-import { useAuth } from "../lib/useAuth";
 import useLocalStorage from "../lib/useLocalStorage";
 
 export const SignUp = (props: any) => {
@@ -24,37 +22,21 @@ export const SignUp = (props: any) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [userInfo, setUserInfo] = useLocalStorage("userInfo")
+  const [userInfo, setUserInfo] = useLocalStorage("userInfo");
 
   const { store, setData } = useData();
 
-  const mutation: any = useMutation({
+  const {mutate,isPending}: any = useMutation({
     mutationKey: ["signUp"],
     mutationFn: () => createAccountHandler(name, email, password),
     onSuccess: (data) => {
-      setUserInfo(data)
+      setUserInfo(data);
       setData({ ...store, userInfo: data });
       router.push("/email-verification");
     },
   });
-
-  useEffect(() => {
-    if (mutation.data?.token || mutation.data?.error) {
-      setData({
-        ...store,
-        userInfo: mutation.data || {},
-        loginRes: mutation?.data || {},
-        
-        successMsg: mutation.data?.success || "",
-        errorMsg: mutation.data?.error || "",
-      });
-    }
-  }, [mutation.data?.token, mutation.data?.error]);
-
   return (
-    <div
-      className="flex flex-col items-center border-2 border-gray-400 rounded-xl pl-12 pr-12 pb-4 w-576 h-614"
-    >
+    <div className="flex flex-col items-center border-2 border-gray-400 rounded-xl pl-12 pr-12 pb-4 w-576 h-614">
       <p className="text-4xl pb-6 pt-16 font-inter text-32 font-semibold leading-38.73 text-left">
         Create your account
       </p>
@@ -83,9 +65,11 @@ export const SignUp = (props: any) => {
         />
         <span className="pt-2">
           <Button
-            onClick={mutation.mutate}
-            btnName="CREATE ACCOUNT"
-            isDisabled={!(name && password && email)}
+            onClick={mutate}
+            btnName={
+              isPending ? "Registering user..." : "CREATE ACCOUNT"
+            }
+            isDisabled={!(name && password && email) || isPending}
           />
         </span>
         <hr />
