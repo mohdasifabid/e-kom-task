@@ -42,7 +42,7 @@ const InterestPage = () => {
         </div>
         <p className="mb-4 font-bold"> My saved interests!</p>
 
-        {isLoading || isUpdatePending ? (
+        {isLoading  ? (
           <Loader />
         ) : (
           <div className="flex flex-col gap-8 ">
