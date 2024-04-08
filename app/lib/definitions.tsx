@@ -23,4 +23,5 @@ export type InterestPropsTypes = {
   interest: string;
   value: string | number;
   checked: false | true;
+  setIsUpdatePending: React.Dispatch<React.SetStateAction<any>>
 };

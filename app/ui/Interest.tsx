@@ -7,7 +7,7 @@ import { BASE_URL } from "../lib/utils";
 import { useData } from "../context";
 
 export const Interest = (props: InterestPropsTypes) => {
-  const { interest, checked, value } = props;
+  const { interest, checked, value, setIsUpdatePending } = props;
   const [isInterestChecked, setIsInterestChecked]: [
     boolean,
     React.Dispatch<React.SetStateAction<boolean>>
@@ -17,10 +17,14 @@ const {store, setData} = useData()
     categoryId: number,
     interest: boolean
   ) => {
+    setIsUpdatePending(true)
     const res = await axios.patch(`${BASE_URL}/api/get-categories`, {
       id: Number(categoryId),
       interested: interest,
     });
+    if(res.status === 200){
+      setIsUpdatePending(false)
+    }
     return res;
   };
   const mutation = useMutation({

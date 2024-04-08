@@ -16,6 +16,7 @@ const InterestPage = () => {
   const { store, setData } = useData();
   const { currentPage } = store;
   const router = useRouter();
+  const [isUpdatePending, setIsUpdatePending] = useState(false)
   const endPoint = `${BASE_URL}/api/get-categories?pageNumber=${
     currentPage || 1
   }&recordsPerPage=${6}`;
@@ -41,7 +42,7 @@ const InterestPage = () => {
         </div>
         <p className="mb-4 font-bold"> My saved interests!</p>
 
-        {isLoading ? (
+        {isLoading || isUpdatePending ? (
           <Loader />
         ) : (
           <div className="flex flex-col gap-8 ">
@@ -52,6 +53,7 @@ const InterestPage = () => {
                   value={id}
                   checked={interested}
                   key={id}
+                  setIsUpdatePending={setIsUpdatePending}
                 />
               );
             })}
